@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
@@ -15,10 +17,11 @@ import (
 )
 
 type Item struct {
-	Id       string   `json:"id,omitempty"`
-	UserName string   `json:"userName"`
-	Message  string   `json:"message"`
-	Picture  []string `json:"picture"`
+	Id        string   `json:"id,omitempty"`
+	CreatedAt string   `json:"createdAt,omitempty"`
+	UserName  string   `json:"userName"`
+	Message   string   `json:"message"`
+	Picture   []string `json:"picture"`
 }
 
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -34,6 +37,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	// New uuid for item id
 	itemUuid := uuid.New().String()
 
+	t := time.Now().Format(time.RFC3339)
 	fmt.Println("Generated new item uuid:", itemUuid)
 
 	// Unmarshal to Item to access object properties
@@ -48,10 +52,11 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	// Create new item of type item
 	item := Item{
-		Id:       itemUuid,
-		UserName: itemStruct.UserName,
-		Message:  itemStruct.Message,
-		Picture:  itemStruct.Picture,
+		Id:        itemUuid,
+		CreatedAt: t,
+		UserName:  itemStruct.UserName,
+		Message:   itemStruct.Message,
+		Picture:   itemStruct.Picture,
 	}
 
 	// Marshal to dynamobb item

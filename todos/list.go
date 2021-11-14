@@ -14,10 +14,11 @@ import (
 )
 
 type Item struct {
-	Id       string   `json:"id,omitempty"`
-	UserName string   `json:"userName"`
-	Message  string   `json:"message"`
-	Picture  []string `json:"picture"`
+	Id        string   `json:"id,omitempty"`
+	UserName  string   `json:"userName"`
+	Message   string   `json:"message"`
+	Picture   []string `json:"picture"`
+	CreatedAt string   `json:"createdAt,omitempty"`
 }
 
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
