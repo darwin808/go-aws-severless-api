@@ -62,7 +62,7 @@ functions:
         - ./bin/update
     events:
       - http:
-          path: notes/{id}
+          path: note/{id}
           method: put
           cors: true
 

@@ -14,10 +14,10 @@ import (
 )
 
 type Item struct {
-	Id       string `json:"id,omitempty"`
-	UserName string `json:"userName"`
-	Message  string `json:"message"`
-	Picture  string `json:"picture"`
+	Id       string   `json:"id,omitempty"`
+	UserName string   `json:"userName"`
+	Message  string   `json:"message"`
+	Picture  []string `json:"picture"`
 }
 
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -70,7 +70,13 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return events.APIGatewayProxyResponse{StatusCode: 500}, nil
 	}
 
-	return events.APIGatewayProxyResponse{Body: string(itemArrayString), StatusCode: 200}, nil
+	return events.APIGatewayProxyResponse{
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "GET",
+			"Access-Control-Allow-Headers": "X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Requested-With,X-Auth-Token,Referer,User-Agent,Origin,Content-Type,Authorization,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
+		},
+		Body: string(itemArrayString), StatusCode: 200}, nil
 }
 
 func main() {
